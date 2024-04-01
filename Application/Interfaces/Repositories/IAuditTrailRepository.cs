@@ -1,6 +1,6 @@
 ﻿namespace Application.Interfaces.Repositories
 {
-	public interface IAuditTrailRepository
+	public interface IAuditTrailRepository : IBaseRepository
 	{
 	}
 }
