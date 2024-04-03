@@ -1,0 +1,15 @@
+version: '1.0'
+
+services:
+  api:
+    container_name: webapi-template-ca
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - '5001:5001'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: on-failure
+    volumes:
+      - ./src/Api/database.sqlite:/app/database.sqlite
