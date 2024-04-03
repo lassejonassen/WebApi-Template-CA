@@ -1,0 +1,8 @@
+POST {{host}}/users/{{userId}}/subscriptions/{{subscriptionId}}/reminders
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "text": "Tell my husband I love him",
+    "dateTime": "2024-02-16T22:20:09"
+}

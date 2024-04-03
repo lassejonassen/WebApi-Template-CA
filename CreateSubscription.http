@@ -1,0 +1,11 @@
+POST {{host}}/users/{{userId}}/subscriptions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "FirstName": "Lior",
+    "LastName": "Dagan",
+    "Email": "lior@dagan.com",
+    "SubscriptionType": "Basic"
+    // "SubscriptionType": "Pro"
+}

@@ -1,0 +1,21 @@
+POST {{host}}/tokens/generate
+Content-Type: application/json
+
+{
+    "Id": "aae93bf5-9e3c-47b3-aace-3034653b6bb2",
+    "FirstName": "Lior",
+    "LastName": "Dagan",
+    "Email": "lior@dagan.com",
+    "Permissions": [
+        "set:reminder",
+        "get:reminder",
+        "dismiss:reminder",
+        "delete:reminder",
+        "create:subscription",
+        "delete:subscription",
+        "get:subscription"
+    ],
+    "Roles": [
+        "Admin"
+    ]
+}
