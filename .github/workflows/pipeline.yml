@@ -35,4 +35,4 @@ jobs:
       - name: Build
         run: dotnet build src/Api/Api.csproj --no-restore
       - name: Test
-        run: dotnet test --filter FullyQualifiedName\~UnitTests
+        run: dotnet test --filter FullyQualifiedName~UnitTests
