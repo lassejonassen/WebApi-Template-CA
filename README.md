@@ -18,3 +18,5 @@ I have taken a lot of inspiration from [this repository](https://github.com/aman
 
 ## Contribution
 Should you want to contribute in any way, please open an Issue and create a Pull Request with the changes you want to make.
+
+Any additional documentation can be viewed in the documentation-folder.
