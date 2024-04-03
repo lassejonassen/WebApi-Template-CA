@@ -18,3 +18,21 @@ jobs:
         run: dotnet restore src/Api/Api.csproj
       - name: Build
         run: dotnet build src/Api/Api.csproj --no-restore
+
+  Test:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore
+        run: dotnet restore src/Api/Api.csproj
+      - name: Build
+        run: dotnet build src/Api/Api.csproj --no-restore
+      - name: Test
+        run: dotnet test --filter FullyQualifiedName\~UnitTests
