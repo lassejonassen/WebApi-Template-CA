@@ -20,3 +20,7 @@ I have taken a lot of inspiration from [this repository](https://github.com/aman
 Should you want to contribute in any way, please open an Issue and create a Pull Request with the changes you want to make.
 
 Any additional documentation can be viewed in the documentation-folder.
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/lassejonassen/WebApi-Template-CA/pipeline.yml?style=for-the-badge)
+
+
