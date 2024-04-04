@@ -1,4 +1,11 @@
-﻿namespace Domain.UnitTests.Users;
+﻿using Domain.Users;
+using ErrorOr;
+using FluentAssertions;
+using TestCommon.Reminders;
+using TestCommon.Subscriptions;
+using TestCommon.Users;
+
+namespace Domain.UnitTests.Users;
 
 public class UserTests
 {

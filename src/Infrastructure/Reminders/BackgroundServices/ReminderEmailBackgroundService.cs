@@ -34,7 +34,7 @@ public class ReminderEmailBackgroundService(
 	/// <summary>
 	/// TODO: there are many edge cases that aren't caught here. This is an immediate nice to have implementation for now.
 	/// </summary>
-	private async void SendEmailNotifications(object? state)
+	private async void SendEmailNotifications(object state)
 	{
 		var now = _dateTimeProvider.UtcNow;
 		var oneMinuteFromNow = now.AddMinutes(1);
@@ -46,11 +46,11 @@ public class ReminderEmailBackgroundService(
 
 		var subscriptionToBeNotified = dueRemindersBySubscription.ConvertAll(x => x.Key);
 
-		var usersToBeNotified = _dbContext.Users
+		var usersToBeNotified = _dbContext.SubUsers
 			.Where(user => subscriptionToBeNotified.Contains(user.Subscription.Id))
 			.ToList();
 
-		foreach (User? user in usersToBeNotified)
+		foreach (User user in usersToBeNotified)
 		{
 			var dueReminders = dueRemindersBySubscription
 				.Single(x => x.Key == user.Subscription.Id)

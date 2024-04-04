@@ -14,22 +14,23 @@ public class Calendar
 
 	public void IncrementEventCount(DateOnly date)
 	{
-		if (!_calendar.ContainsKey(date))
+		if (!_calendar.TryGetValue(date, out int value))
 		{
-			_calendar[date] = 0;
+			value = 0;
+			_calendar[date] = value;
 		}
 
-		_calendar[date]++;
+		_calendar[date] = ++value;
 	}
 
 	public void DecrementEventCount(DateOnly date)
 	{
-		if (!_calendar.ContainsKey(date))
+		if (!_calendar.TryGetValue(date, out int value))
 		{
 			return;
 		}
 
-		_calendar[date]--;
+		_calendar[date] = --value;
 	}
 
 	public void SetEventCount(DateOnly date, int numEvents)
@@ -39,7 +40,7 @@ public class Calendar
 
 	public int GetNumEventsOnDay(DateTimeOffset dateTime)
 	{
-		return _calendar.TryGetValue(DateOnly.FromDateTime(dateTime.Date), out var numEvents)
+		return _calendar.TryGetValue(DateOnly.FromDateTime(dateTime.Date), out int numEvents)
 			? numEvents
 			: 0;
 	}
