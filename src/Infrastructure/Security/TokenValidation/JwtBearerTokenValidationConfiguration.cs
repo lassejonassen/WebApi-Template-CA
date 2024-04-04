@@ -11,7 +11,7 @@ public sealed class JwtBearerTokenValidationConfiguration(IOptions<JwtSettings> 
 {
 	private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
-	public void Configure(string? name, JwtBearerOptions options) => Configure(options);
+	public void Configure(string name, JwtBearerOptions options) => Configure(options);
 
 	public void Configure(JwtBearerOptions options)
 	{

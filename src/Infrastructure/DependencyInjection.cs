@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Identity;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Reminders.Persistence;
 using Infrastructure.Security;
@@ -9,6 +10,7 @@ using Infrastructure.Security.TokenValidation;
 using Infrastructure.Services;
 using Infrastructure.Users.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,24 +23,21 @@ public static class DependencyInjection
 		services
 		   .AddHttpContextAccessor()
 		   .AddServices()
-		   .AddBackgroundServices(configuration)
+		   .AddBackgroundServices()
 		   .AddAuthentication(configuration)
 		   .AddAuthorization()
+		   .AddIdentity()
 		   .AddPersistence();
 
 		return services;
 	}
 
-	private static IServiceCollection AddBackgroundServices(this IServiceCollection services, IConfiguration configuration)
+	private static IServiceCollection AddBackgroundServices(this IServiceCollection services)
 	{
-		services.AddEmailNotifications(configuration);
+		//services.AddEmailNotifications(configuration);
 		return services;
 	}
 
-	private static IServiceCollection AddEmailNotifications(this IServiceCollection services, IConfiguration configuration)
-	{
-		return services;
-	}
 
 	private static IServiceCollection AddServices(this IServiceCollection services)
 	{
@@ -76,6 +75,25 @@ public static class DependencyInjection
 			.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
 			.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
 			.AddJwtBearer();
+
+		return services;
+	}
+
+	private static IServiceCollection AddIdentity(this IServiceCollection services)
+	{
+		services.AddIdentityCore<ApplicationUser>()
+			.AddRoles<IdentityRole>()
+			.AddEntityFrameworkStores<AppDbContext>();
+		services.Configure<IdentityOptions>(options =>
+		{
+			options.Password.RequireNonAlphanumeric = false;
+			options.Password.RequiredLength = 8;
+			options.Password.RequireUppercase = true;
+			options.Password.RequireLowercase = true;
+			options.Password.RequireDigit = true;
+			options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+			options.User.RequireUniqueEmail = true;
+		});
 
 		return services;
 	}

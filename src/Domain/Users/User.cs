@@ -28,7 +28,7 @@ public class User : Entity
 		string lastName,
 		string email,
 		Subscription subscription,
-		Calendar? calendar = null)
+		Calendar calendar = null)
 			: base(id)
 	{
 		FirstName = firstName;

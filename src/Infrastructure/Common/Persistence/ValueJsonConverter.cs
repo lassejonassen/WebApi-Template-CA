@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Common.Persistence;
 
-public class ValueJsonConverter<T>(ConverterMappingHints? mappingHints = null)
+public class ValueJsonConverter<T>(ConverterMappingHints mappingHints = null)
 	: ValueConverter<T, string>(
 		v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
 		v => JsonSerializer.Deserialize<T>(v, JsonSerializerOptions.Default)!,
