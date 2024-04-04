@@ -1,5 +1,8 @@
-﻿using Contracts.Messages;
+﻿using System.Threading.Tasks;
+using Application.Messages.Commands.Create;
+using Contracts.Messages;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -11,7 +14,7 @@ public class MessagesController(IMediator _mediator) : ControllerBase
 	[HttpPost]
 	public async Task<IActionResult> Create(CreateMessageRequest request)
 	{
-		var message = await _mediator.Send(request);
+		var message = await _mediator.Send(new CreateMessageCommand(request));
 		return Ok(message);
 	}
 }

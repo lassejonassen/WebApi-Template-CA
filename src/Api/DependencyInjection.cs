@@ -1,4 +1,6 @@
-﻿namespace Api;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Api;
 
 public static class DependencyInjection
 {
