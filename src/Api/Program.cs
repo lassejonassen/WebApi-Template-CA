@@ -21,11 +21,8 @@ internal class Program
 			app.UseExceptionHandler();
 			app.UseInfrastructure();
 
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+			app.UseSwagger();
+			app.UseSwaggerUI();
 
 			app.UseHttpsRedirection();
 			app.UseAuthorization();

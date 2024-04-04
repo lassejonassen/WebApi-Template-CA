@@ -15,12 +15,14 @@ public class UsersRepository(AppDbContext _dbContext) : IUsersRepository
 
 	public async Task<User> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
 	{
-		return await _dbContext.SubUsers.FindAsync([userId], cancellationToken: cancellationToken);
+		throw new NotImplementedException();
+		//return await _dbContext.SubUsers.FindAsync([userId], cancellationToken: cancellationToken);
 	}
 
 	public async Task<User> GetBySubscriptionIdAsync(Guid subscriptionId, CancellationToken cancellationToken)
 	{
-		return await _dbContext.SubUsers.FirstOrDefaultAsync(user => user.Subscription.Id == subscriptionId, cancellationToken);
+		throw new NotImplementedException();
+		//return await _dbContext.SubUsers.FirstOrDefaultAsync(user => user.Subscription.Id == subscriptionId, cancellationToken);
 	}
 
 	public async Task RemoveAsync(User user, CancellationToken cancellationToken)

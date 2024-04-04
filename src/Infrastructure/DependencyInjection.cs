@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Identity;
 using Infrastructure.Common.Persistence;
+using Infrastructure.Messages.Persistence;
 using Infrastructure.Reminders.Persistence;
 using Infrastructure.Security;
 using Infrastructure.Security.CurrentUserProvider;
@@ -26,7 +27,7 @@ public static class DependencyInjection
 		   .AddBackgroundServices()
 		   .AddAuthentication(configuration)
 		   .AddAuthorization()
-		   .AddIdentity()
+		   //.AddIdentity()
 		   .AddPersistence();
 
 		return services;
@@ -48,11 +49,10 @@ public static class DependencyInjection
 
 	private static IServiceCollection AddPersistence(this IServiceCollection services)
 	{
-		services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source = database.sqlite"));
-
-		services.AddScoped<IRemindersRepository, RemindersRepository>();
-		services.AddScoped<IUsersRepository, UsersRepository>();
-
+		services.AddDbContext<AppDbContext>(options => options.UseSqlServer(""));
+		services.AddScoped<IMessagesRepository, MessagesRepository>();
+		//services.AddScoped<IRemindersRepository, RemindersRepository>();
+		//services.AddScoped<IUsersRepository, UsersRepository>();
 		return services;
 	}
 

@@ -10,7 +10,7 @@ public static class RequestPipeline
 	{
 		app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 		app.UseMiddleware<EventualConsistencyMiddleware>();
-		DataSeeding.SeedDefaultUser(app);
+		//DataSeeding.SeedDefaultUser(app);
 		return app;
 	}
 }
