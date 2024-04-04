@@ -51,8 +51,8 @@ public static class DependencyInjection
 	{
 		services.AddDbContext<AppDbContext>(options => options.UseSqlServer(""));
 		services.AddScoped<IMessagesRepository, MessagesRepository>();
-		//services.AddScoped<IRemindersRepository, RemindersRepository>();
-		//services.AddScoped<IUsersRepository, UsersRepository>();
+		services.AddScoped<IRemindersRepository, RemindersRepository>();
+		services.AddScoped<IUsersRepository, UsersRepository>();
 		return services;
 	}
 
