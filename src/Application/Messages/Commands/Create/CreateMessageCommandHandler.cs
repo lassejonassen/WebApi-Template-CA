@@ -1,10 +1,10 @@
 ﻿using Application.Common.Interfaces;
 using Contracts.Messages;
 using Domain.Messages;
-using ErrorOr;
+using ErrorOr;	
 using MediatR;
 
-namespace Application.Messages.Commands.Create;
+namespace Application.Messages.Commands;
 
 public class CreateMessageCommandHandler(IMessagesRepository _repository) 
 	: IRequestHandler<CreateMessageCommand, ErrorOr<MessageResponse>>

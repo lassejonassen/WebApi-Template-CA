@@ -4,6 +4,7 @@ using MediatR;
 
 namespace Application.Messages.Commands;
 
-public record CreateMessageCommand(CreateMessageRequest Request)
-: IRequest<ErrorOr<MessageResponse>>
+public record UpdateMessageCommand(UpdateMessageRequest Request)
+	: IRequest<ErrorOr<MessageResponse>>
 { }
+

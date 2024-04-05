@@ -3,7 +3,5 @@ using ErrorOr;
 using MediatR;
 
 namespace Application.Messages.Commands;
-
-public record CreateMessageCommand(CreateMessageRequest Request)
-: IRequest<ErrorOr<MessageResponse>>
+public record DeleteMessageCommand(Guid Id) : IRequest<ErrorOr<MessageResponse>>
 { }
