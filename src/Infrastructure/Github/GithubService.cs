@@ -1,10 +1,10 @@
-﻿using System.Net.Http.Headers;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain.Github;
 using Infrastructure.Services;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Github;
+
 public class GithubService(HttpClient httpClient, IOptions<GithubSettings> options) : BaseService, IGithubService
 {
 	private readonly HttpClient _httpClient = httpClient;
