@@ -6,7 +6,7 @@ public interface IApplicationRolesRepository
 {
 	Task AddAsync(ApplicationRole role, CancellationToken cancellationToken);
 	Task<List<ApplicationRole>> GetAllAsync(CancellationToken cancellationToken);
-	Task<ApplicationRole> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+	Task<ApplicationRole> GetByIdAsync(string id, CancellationToken cancellationToken);
 	Task UpdateAsync(ApplicationRole role, CancellationToken cancellationToken);
 	Task DeleteAsync(ApplicationRole role, CancellationToken cancellationToken);
 }

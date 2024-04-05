@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Contracts.Identity;
 
-namespace Contracts.Identity;
-internal class ApplicationRoleResponse
+public record ApplicationRoleResponse
 {
+	public required Guid Id { get; set; }
+	public required string Name { get; set; }
+	public required string Description { get; set; }
+
+	public DateTimeOffset CreateTime { get; set; }
+	public DateTimeOffset UpdateTime { get; set; }
 }

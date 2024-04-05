@@ -1,4 +1,4 @@
 ﻿namespace Contracts.Identity;
-internal class CreateApplicationRoleRequest
+public record CreateApplicationRoleRequest(string Name, string Description)
 {
 }

@@ -24,9 +24,9 @@ public class ApplicationRolesRepository(RoleManager<ApplicationRole> roleManager
 		return await _roleManager.Roles.ToListAsync();
 	}
 
-	public async Task<ApplicationRole> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+	public async Task<ApplicationRole> GetByIdAsync(string id, CancellationToken cancellationToken)
 	{
-		return await _roleManager.FindByIdAsync(id.ToString());
+		return await _roleManager.FindByIdAsync(id);
 	}
 
 	public async Task UpdateAsync(ApplicationRole role, CancellationToken cancellationToken)

@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Identity\Roles\Commands\Create\" />
     <Folder Include="Identity\Roles\Commands\Delete\" />
     <Folder Include="Identity\Roles\Commands\Update\" />
     <Folder Include="Identity\Roles\Queries\QueryById\" />
