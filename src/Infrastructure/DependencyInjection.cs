@@ -22,13 +22,13 @@ public static class DependencyInjection
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
+		   .AddPersistence(configuration)
 		   .AddHttpContextAccessor()
 		   .AddServices()
 		   .AddBackgroundServices()
 		   .AddAuthentication(configuration)
-		   .AddAuthorization()
+		   .AddAuthorization();
 		   //.AddIdentity()
-		   .AddPersistence();
 
 		return services;
 	}
@@ -47,9 +47,17 @@ public static class DependencyInjection
 		return services;
 	}
 
-	private static IServiceCollection AddPersistence(this IServiceCollection services)
+	private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.AddDbContext<AppDbContext>(options => options.UseSqlServer(""));
+		// Configure DatabaseSettings from appsettings.json
+		services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.Section));
+
+		// Retrieve the DatabaseSettings from the configuration
+		var databaseSettings = configuration.GetSection(DatabaseSettings.Section).Get<DatabaseSettings>();
+
+		// Use the connection string from the DatabaseSettings
+		services.AddDbContext<AppDbContext>(options => options.UseSqlServer(databaseSettings.ConnectionString));
+
 		services.AddScoped<IMessagesRepository, MessagesRepository>();
 		services.AddScoped<IRemindersRepository, RemindersRepository>();
 		services.AddScoped<IUsersRepository, UsersRepository>();

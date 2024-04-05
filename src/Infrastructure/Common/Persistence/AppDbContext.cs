@@ -1,15 +1,18 @@
-﻿using Domain.Identity;
-using Domain.Messages;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Domain.Messages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Common.Persistence;
 
-public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpContextAccessor, IPublisher _publisher) : IdentityDbContext<ApplicationUser>(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-	public DbSet<Message> Messages { get; set; } = null;
+	public DbSet<Message> Messages { get; set; }
+
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+		base.OnModelCreating(modelBuilder);
+	}
 
 	//public DbSet<Reminder> Reminders { get; set; } = null!;
 
@@ -29,13 +32,6 @@ public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpCo
 
 	//	await PublishDomainEvents(domainEvents);
 	//	return await base.SaveChangesAsync(cancellationToken);
-	//}
-
-	//protected override void OnModelCreating(ModelBuilder modelBuilder)
-	//{
-	//	modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-
-	//	base.OnModelCreating(modelBuilder);
 	//}
 
 	//private bool IsUserWaitingOnline() => _httpContextAccessor.HttpContext is not null;
