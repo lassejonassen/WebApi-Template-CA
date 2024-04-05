@@ -1,7 +1,9 @@
-﻿using Application.Common.Interfaces;
+﻿using System.Net.Http.Headers;
+using Application.Common.Interfaces;
 using Asp.Versioning;
 using Domain.Identity;
 using Infrastructure.Common.Persistence;
+using Infrastructure.Github;
 using Infrastructure.Messages.Persistence;
 using Infrastructure.Reminders.Persistence;
 using Infrastructure.Security;
@@ -27,6 +29,7 @@ public static class DependencyInjection
 			.AddPersistence(configuration)
 			.AddHttpContextAccessor()
 			.AddServices()
+			.AddHttpClient(configuration)
 			.AddBackgroundServices()
 			.AddAuthentication(configuration)
 			.AddAuthorization()
@@ -81,6 +84,20 @@ public static class DependencyInjection
 		return services;
 	}
 
+	private static IServiceCollection AddHttpClient(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddHttpClient<IGithubService, GithubService>((httpClient) =>
+		{
+			var githubSettings = configuration.GetSection(GithubSettings.Section).Get<GithubSettings>();
+
+			httpClient.BaseAddress = new Uri(githubSettings.BasePath);
+			httpClient.Timeout = TimeSpan.FromSeconds(5);
+			httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", githubSettings.PAT);
+		});
+
+		return services;
+	}
+
 	private static IServiceCollection AddIdentity(this IServiceCollection services)
 	{
 		services
@@ -105,6 +122,7 @@ public static class DependencyInjection
 	{
 		services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.Section));
 		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
+		services.Configure<GithubSettings>(configuration.GetSection(GithubSettings.Section));
 		return services;
 	}
 

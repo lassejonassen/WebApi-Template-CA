@@ -19,6 +19,7 @@ internal class Program
 			.SetBasePath(Directory.GetCurrentDirectory())
 			.AddJsonFile("Configuration/appsettings.json", optional: false, reloadOnChange: true)
 			.AddJsonFile($"Configuration/appsettings.{environment}.json", optional: true, reloadOnChange: true)
+			.AddUserSecrets<IAssemblyMarker>()
 			.AddEnvironmentVariables();
 
 		var configuration = configBuilder.Build();
