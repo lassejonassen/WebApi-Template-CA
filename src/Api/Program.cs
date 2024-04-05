@@ -1,6 +1,8 @@
 using Api;
 using Application;
 using Infrastructure;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 
 internal class Program
 {
@@ -11,9 +13,7 @@ internal class Program
 			builder.Services
 				.AddPresentation()
 				.AddApplication()
-				.AddInfrastructure(builder.Configuration)
-				.AddEndpointsApiExplorer()
-				.AddSwaggerGen();
+				.AddInfrastructure(builder.Configuration);
 		}
 
 		var app = builder.Build();
