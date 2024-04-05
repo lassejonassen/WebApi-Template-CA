@@ -22,14 +22,22 @@ public static class DependencyInjection
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
-		   .AddPersistence(configuration)
-		   .AddHttpContextAccessor()
-		   .AddServices()
-		   .AddBackgroundServices()
-		   .AddAuthentication(configuration)
-		   .AddAuthorization();
-		   //.AddIdentity()
+			.AddOptionsPattern(configuration)
+			.AddPersistence(configuration)
+			.AddHttpContextAccessor()
+			.AddServices()
+			.AddBackgroundServices()
+			.AddAuthentication(configuration)
+			.AddAuthorization();
+		//.AddIdentity()
 
+		return services;
+	}
+
+	private static IServiceCollection AddOptionsPattern(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.Section));
+		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
 		return services;
 	}
 
@@ -43,15 +51,12 @@ public static class DependencyInjection
 	private static IServiceCollection AddServices(this IServiceCollection services)
 	{
 		services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
-
 		return services;
 	}
 
+
 	private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
 	{
-		// Configure DatabaseSettings from appsettings.json
-		services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.Section));
-
 		// Retrieve the DatabaseSettings from the configuration
 		var databaseSettings = configuration.GetSection(DatabaseSettings.Section).Get<DatabaseSettings>();
 
@@ -75,11 +80,8 @@ public static class DependencyInjection
 
 	private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
-
-		services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-
 		services
+			.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>()
 			.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
 			.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
 			.AddJwtBearer();
@@ -89,7 +91,8 @@ public static class DependencyInjection
 
 	private static IServiceCollection AddIdentity(this IServiceCollection services)
 	{
-		services.AddIdentityCore<ApplicationUser>()
+		services
+			.AddIdentityCore<ApplicationUser>()
 			.AddRoles<IdentityRole>()
 			.AddEntityFrameworkStores<AppDbContext>();
 		services.Configure<IdentityOptions>(options =>
