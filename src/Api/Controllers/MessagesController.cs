@@ -44,4 +44,20 @@ public class MessagesController(IMediator _mediator) : ControllerBase
 		var messages= await _mediator.Send(new MessagesQueryByReadState(read));
 		return Ok(messages);
 	}
+
+	[ProducesResponseType(typeof(MessageResponse), StatusCodes.Status200OK)]
+	[HttpPatch]
+	public async Task<IActionResult> Update(UpdateMessageRequest request)
+	{
+		var message = await _mediator.Send(new UpdateMessageCommand(request));
+		return Ok(message);
+	}
+
+	[ProducesResponseType(typeof(MessageResponse), StatusCodes.Status200OK)]
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> Delete(Guid id)
+	{
+		var message = await _mediator.Send(new DeleteMessageCommand(id));
+		return Ok(message);
+	}
 }

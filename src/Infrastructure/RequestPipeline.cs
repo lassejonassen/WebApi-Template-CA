@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Common.Middleware;
-using Infrastructure.Common.Persistence;
 using Microsoft.AspNetCore.Builder;
 
 namespace Infrastructure;
