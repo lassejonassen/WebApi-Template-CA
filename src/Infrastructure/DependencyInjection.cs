@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Asp.Versioning;
 using Domain.Identity;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Messages.Persistence;
@@ -28,52 +29,28 @@ public static class DependencyInjection
 			.AddServices()
 			.AddBackgroundServices()
 			.AddAuthentication(configuration)
-			.AddAuthorization();
+			.AddAuthorization()
+			.AddApiVersioning();
 		//.AddIdentity()
 
 		return services;
 	}
 
-	private static IServiceCollection AddOptionsPattern(this IServiceCollection services, IConfiguration configuration)
+	private static IServiceCollection AddApiVersioning(this IServiceCollection services)
 	{
-		services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.Section));
-		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
-		return services;
-	}
-
-	private static IServiceCollection AddBackgroundServices(this IServiceCollection services)
-	{
-		//services.AddEmailNotifications(configuration);
-		return services;
-	}
-
-
-	private static IServiceCollection AddServices(this IServiceCollection services)
-	{
-		services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
-		return services;
-	}
-
-
-	private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
-	{
-		// Retrieve the DatabaseSettings from the configuration
-		var databaseSettings = configuration.GetSection(DatabaseSettings.Section).Get<DatabaseSettings>();
-
-		// Use the connection string from the DatabaseSettings
-		services.AddDbContext<AppDbContext>(options => options.UseSqlServer(databaseSettings.ConnectionString));
-
-		services.AddScoped<IMessagesRepository, MessagesRepository>();
-		services.AddScoped<IRemindersRepository, RemindersRepository>();
-		services.AddScoped<IUsersRepository, UsersRepository>();
-		return services;
-	}
-
-	private static IServiceCollection AddAuthorization(this IServiceCollection services)
-	{
-		services.AddScoped<IAuthorizationService, AuthorizationService>();
-		services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
-		services.AddSingleton<IPolicyEnforcer, PolicyEnforcer>();
+		services.AddApiVersioning(options =>
+		{
+			options.DefaultApiVersion = new ApiVersion(1);
+			options.ReportApiVersions = true;
+			options.AssumeDefaultVersionWhenUnspecified = true;
+			options.ApiVersionReader = ApiVersionReader.Combine(
+				new UrlSegmentApiVersionReader(),
+				new HeaderApiVersionReader("X-Api-Version"));
+		}).AddApiExplorer(options =>
+		{
+			options.GroupNameFormat = "'v'V";
+			options.SubstituteApiVersionInUrl = true;
+		});
 
 		return services;
 	}
@@ -86,6 +63,21 @@ public static class DependencyInjection
 			.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
 			.AddJwtBearer();
 
+		return services;
+	}
+
+	private static IServiceCollection AddAuthorization(this IServiceCollection services)
+	{
+		services.AddScoped<IAuthorizationService, AuthorizationService>();
+		services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+		services.AddSingleton<IPolicyEnforcer, PolicyEnforcer>();
+
+		return services;
+	}
+
+	private static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+	{
+		//services.AddEmailNotifications(configuration);
 		return services;
 	}
 
@@ -106,6 +98,33 @@ public static class DependencyInjection
 			options.User.RequireUniqueEmail = true;
 		});
 
+		return services;
+	}
+
+	private static IServiceCollection AddOptionsPattern(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.Configure<DatabaseSettings>(configuration.GetSection(DatabaseSettings.Section));
+		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
+		return services;
+	}
+
+	private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+	{
+		// Retrieve the DatabaseSettings from the configuration
+		var databaseSettings = configuration.GetSection(DatabaseSettings.Section).Get<DatabaseSettings>();
+
+		// Use the connection string from the DatabaseSettings
+		services.AddDbContext<AppDbContext>(options => options.UseSqlServer(databaseSettings.ConnectionString));
+
+		services.AddScoped<IMessagesRepository, MessagesRepository>();
+		services.AddScoped<IRemindersRepository, RemindersRepository>();
+		services.AddScoped<IUsersRepository, UsersRepository>();
+		return services;
+	}
+
+	private static IServiceCollection AddServices(this IServiceCollection services)
+	{
+		services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
 		return services;
 	}
 }
