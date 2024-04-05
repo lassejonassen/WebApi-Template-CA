@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Messages.Commands;
 using Application.Messages.Queries;
+using Asp.Versioning;
 using Contracts.Messages;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
-[Route("api/messages")]
+[Route("api/v{v:apiVersion}/messages")]
+[ApiVersion(1)]
 [ApiController]
 public class MessagesController(IMediator _mediator) : ControllerBase
 {
