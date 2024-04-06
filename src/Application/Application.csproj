@@ -16,11 +16,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Identity\Roles\Commands\Delete\" />
-    <Folder Include="Identity\Roles\Commands\Update\" />
-    <Folder Include="Identity\Roles\Queries\QueryById\" />
-    <Folder Include="Identity\Roles\Queries\QueryAll\" />
-  </ItemGroup>
-
 </Project>
