@@ -18,6 +18,7 @@ public class AllApplicationUsersQueryHandler(IApplicationUsersRepository repo)
 				Id = Guid.Parse(user.Id),
 				FirstName = user.FirstName,
 				LastName = user.LastName,
+				UserName = user.UserName,
 				Email = user.Email,
 				CreateTime = user.CreateTime,
 				UpdateTime = user.UpdateTime,

@@ -31,6 +31,6 @@ public class ApplicationUsersRepository(UserManager<ApplicationUser> userManager
 
 	public async Task UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
 	{
-		await UpdateAsync(user, cancellationToken);
+		await _userManager.UpdateAsync(user);
 	}
 }
