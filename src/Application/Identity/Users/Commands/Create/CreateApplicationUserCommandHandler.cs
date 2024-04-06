@@ -17,6 +17,7 @@ public class CreateApplicationUserCommandHandler(IApplicationUsersRepository _re
 			LastName = command.Request.LastName,
 			Email = command.Request.Email,
 			UserName = command.Request.UserName,
+			CreateTime = DateTimeOffset.Now
 		};
 
 		await _repository.AddAsync(applicationUser, command.Request.Password, cancellationToken);

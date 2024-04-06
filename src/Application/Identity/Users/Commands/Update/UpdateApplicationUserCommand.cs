@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Contracts.Identity;
+using ErrorOr;
+using MediatR;
 
 namespace Application.Identity.Users.Commands.Update;
-internal class UpdateApplicationUserCommand
+public record UpdateApplicationUserCommand(UpdateApplicationUserRequest Request) : IRequest<ErrorOr<bool>>
 {
 }
