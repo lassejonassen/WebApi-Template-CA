@@ -8,7 +8,7 @@ public static class RequestPipeline
 	public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
 	{
 		app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
-		//app.UseMiddleware<EventualConsistencyMiddleware>();
+		app.UseMiddleware<EventualConsistencyMiddleware>();
 		//DataSeeding.SeedDefaultUser(app);
 		return app;
 	}

@@ -2,7 +2,9 @@
 
 public abstract class Entity
 {
-	public Guid Id { get; private init; }
+	public Guid Id { get; set; }
+	public DateTimeOffset CreateTime { get; set; }
+	public DateTimeOffset UpdateTime { get; set; }
 
 	protected readonly List<IDomainEvent> _domainEvents = [];
 

@@ -1,11 +1,11 @@
-﻿namespace Domain.Messages;
+﻿using Domain.Common;
+using Domain.Messages.Events;
+using ErrorOr;
 
-public class Message
+namespace Domain.Messages;
+
+public class Message : Entity
 {
-	// Base information
-	public Guid Id { get; set; }
-	public DateTimeOffset CreateTime { get; set; }
-	public DateTimeOffset UpdateTime { get; set; }
 	public Guid CorrelationId { get; set; }
 
 	// Specific information
@@ -27,4 +27,11 @@ public class Message
 	}
 
 	public Message() { }
+
+	public ErrorOr<Success> UpdateMessage(Message message)
+	{
+		_domainEvents.Add(new MessageUpdatedEvent(message));
+
+		return Result.Success;
+	}
 }

@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Asp.Versioning;
 using Domain.Identity;
+using Infrastructure.AuditLogs.Persistence;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Github;
 using Infrastructure.Identity.Persistence;
@@ -141,6 +142,7 @@ public static class DependencyInjection
 		services.AddScoped<IApplicationUsersRepository, ApplicationUsersRepository>();
 		services.AddScoped<IApplicationRolesRepository, ApplicationRolesRepository>();
 		services.AddScoped<IApplicationUserRolesRepository, ApplicationUserRolesRepository>();
+		services.AddScoped<IAuditLogsRepository, AuditLogsRepository>();
 
 		return services;
 	}

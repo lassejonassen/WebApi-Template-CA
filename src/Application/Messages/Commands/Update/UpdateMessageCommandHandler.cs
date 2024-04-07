@@ -22,6 +22,13 @@ public class UpdateMessageCommandHandler(IMessagesRepository _repository)
 		message.Text = command.Request.Text;
 		message.Read = command.Request.Read;
 
+		var updateMessageResult = message.UpdateMessage(message);
+
+		if (updateMessageResult.IsError)
+		{
+			return updateMessageResult.Errors;
+		}
+
 		await _repository.UpdateAsync(message, cancellationToken);
 
 		return new MessageResponse(message.Id, message.To, message.From, message.Text, message.Read);
