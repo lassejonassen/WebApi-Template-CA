@@ -4,6 +4,7 @@ using Asp.Versioning;
 using Domain.Identity;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Github;
+using Infrastructure.Identity.Persistence;
 using Infrastructure.Messages.Persistence;
 using Infrastructure.Reminders.Persistence;
 using Infrastructure.Security;
@@ -33,8 +34,8 @@ public static class DependencyInjection
 			.AddBackgroundServices()
 			.AddAuthentication(configuration)
 			.AddAuthorization()
-			.AddApiVersioning();
-		//.AddIdentity()
+			.AddApiVersioning()
+			.AddIdentity();
 
 		return services;
 	}
@@ -102,7 +103,7 @@ public static class DependencyInjection
 	{
 		services
 			.AddIdentityCore<ApplicationUser>()
-			.AddRoles<IdentityRole>()
+			.AddRoles<ApplicationRole>()
 			.AddEntityFrameworkStores<AppDbContext>();
 		services.Configure<IdentityOptions>(options =>
 		{
@@ -137,6 +138,10 @@ public static class DependencyInjection
 		services.AddScoped<IMessagesRepository, MessagesRepository>();
 		services.AddScoped<IRemindersRepository, RemindersRepository>();
 		services.AddScoped<IUsersRepository, UsersRepository>();
+		services.AddScoped<IApplicationUsersRepository, ApplicationUsersRepository>();
+		services.AddScoped<IApplicationRolesRepository, ApplicationRolesRepository>();
+		services.AddScoped<IApplicationUserRolesRepository, ApplicationUserRolesRepository>();
+
 		return services;
 	}
 
