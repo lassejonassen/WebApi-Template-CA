@@ -1,10 +1,12 @@
 ﻿using System.Text.Json;
 using Application.Common.Interfaces;
 using Domain.Audit;
+using Domain.Messages;
 using Domain.Messages.Events;
 using MediatR;
 
 namespace Application.Messages.Events;
+
 public class MessageUpdatedEventHandler(IAuditLogsRepository repository) : INotificationHandler<MessageUpdatedEvent>
 {
 	public async Task Handle(MessageUpdatedEvent @event, CancellationToken cancellationToken)
@@ -14,9 +16,9 @@ public class MessageUpdatedEventHandler(IAuditLogsRepository repository) : INoti
 			Id = Guid.NewGuid(),
 			CreateTime = DateTimeOffset.Now,
 			CorrelationId = Guid.NewGuid(),
-			EntityType = "Message",
+			EntityType = typeof(Message).Name,
 			EntityId = @event.Message.Id.ToString(),
-			ChangedByCommand = "UpdateMessageCommand",
+			ChangedByCommand = GetType().Name,
 			CommandId = Guid.NewGuid().ToString(),
 			Content = JsonSerializer.Serialize(@event.Message)
 		};

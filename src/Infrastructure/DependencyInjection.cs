@@ -27,9 +27,9 @@ public static class DependencyInjection
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
+			.AddHttpContextAccessor()
 			.AddOptionsPattern(configuration)
 			.AddPersistence(configuration)
-			.AddHttpContextAccessor()
 			.AddServices()
 			.AddHttpClient(configuration)
 			.AddBackgroundServices()

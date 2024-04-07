@@ -28,9 +28,9 @@ public class Message : Entity
 
 	public Message() { }
 
-	public ErrorOr<Success> UpdateMessage(Message message)
+	public ErrorOr<Success> UpdateMessage()
 	{
-		_domainEvents.Add(new MessageUpdatedEvent(message));
+		_domainEvents.Add(new MessageUpdatedEvent(this));
 
 		return Result.Success;
 	}

@@ -22,7 +22,7 @@ public class UpdateMessageCommandHandler(IMessagesRepository _repository)
 		message.Text = command.Request.Text;
 		message.Read = command.Request.Read;
 
-		var updateMessageResult = message.UpdateMessage(message);
+		var updateMessageResult = message.UpdateMessage();
 
 		if (updateMessageResult.IsError)
 		{
