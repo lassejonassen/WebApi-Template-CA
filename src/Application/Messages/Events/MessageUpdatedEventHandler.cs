@@ -7,7 +7,7 @@ using MediatR;
 namespace Application.Messages.Events;
 public class MessageUpdatedEventHandler(IAuditLogsRepository repository) : INotificationHandler<MessageUpdatedEvent>
 {
-	public async Task Handle(MessageUpdatedEvent notification, CancellationToken cancellationToken)
+	public async Task Handle(MessageUpdatedEvent @event, CancellationToken cancellationToken)
 	{
 		var auditLog = new AuditLog()
 		{
@@ -15,10 +15,10 @@ public class MessageUpdatedEventHandler(IAuditLogsRepository repository) : INoti
 			CreateTime = DateTimeOffset.Now,
 			CorrelationId = Guid.NewGuid(),
 			EntityType = "Message",
-			EntityId = notification.Message.Id.ToString(),
+			EntityId = @event.Message.Id.ToString(),
 			ChangedByCommand = "UpdateMessageCommand",
 			CommandId = Guid.NewGuid().ToString(),
-			Content = JsonSerializer.Serialize(notification.Message)
+			Content = JsonSerializer.Serialize(@event.Message)
 		};
 
 		await repository.CreateAuditLog(auditLog);
