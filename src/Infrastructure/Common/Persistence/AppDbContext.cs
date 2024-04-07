@@ -1,4 +1,5 @@
-﻿using Domain.Identity;
+﻿using Domain.Audit;
+using Domain.Identity;
 using Domain.Messages;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ namespace Infrastructure.Common.Persistence;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
 	public DbSet<Message> Messages { get; set; }
+	public DbSet<AuditLog> AuditLogs { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
