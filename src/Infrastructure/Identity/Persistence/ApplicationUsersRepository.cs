@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using System.Security.Claims;
+using Application.Common.Interfaces;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -52,5 +53,30 @@ public class ApplicationUsersRepository(UserManager<ApplicationUser> userManager
 	public async Task UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
 	{
 		await _userManager.UpdateAsync(user);
+	}
+
+	public async Task AddClaim(ApplicationUser user, Claim claim)
+	{
+		await _userManager.AddClaimAsync(user, claim);
+	}
+
+	public async Task AddClaims(ApplicationUser user, List<Claim> claims)
+	{
+		await _userManager.AddClaimsAsync(user, claims);
+	}
+
+	public async Task<List<Claim>> GetClaims(ApplicationUser user)
+	{
+		return (List<Claim>)await _userManager.GetClaimsAsync(user);
+	}
+
+	public async Task RemoveClaim(ApplicationUser user, Claim claim)
+	{
+		await _userManager.RemoveClaimAsync(user, claim);
+	}
+
+	public async Task RemoveClaims(ApplicationUser user, List<Claim> claims)
+	{
+		await _userManager.RemoveClaimsAsync(user, claims);
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using System.Security.Claims;
+using Application.Common.Interfaces;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,5 +33,20 @@ public class ApplicationRolesRepository(RoleManager<ApplicationRole> roleManager
 	public async Task UpdateAsync(ApplicationRole role, CancellationToken cancellationToken)
 	{
 		await _roleManager.UpdateAsync(role);
+	}
+
+	public async Task AddClaim(ApplicationRole role, Claim claim)
+	{
+		await _roleManager.AddClaimAsync(role, claim);
+	}
+
+	public async Task<List<Claim>> GetClaims(ApplicationRole role)
+	{
+		return (List<Claim>)await _roleManager.GetClaimsAsync(role);
+	}
+	
+	public async Task RemoveClaim(ApplicationRole role, Claim claim)
+	{
+		await _roleManager.RemoveClaimAsync(role, claim);
 	}
 }

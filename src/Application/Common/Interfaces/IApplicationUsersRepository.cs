@@ -1,4 +1,5 @@
-﻿using Domain.Identity;
+﻿using System.Security.Claims;
+using Domain.Identity;
 
 namespace Application.Common.Interfaces;
 
@@ -14,4 +15,10 @@ public interface IApplicationUsersRepository
 
 	Task<bool> CheckPassword(ApplicationUser user, string password);
 	Task<List<string>> GetUsersRoles(ApplicationUser user);
+
+	Task AddClaim(ApplicationUser user, Claim claim);
+	Task AddClaims(ApplicationUser user, List<Claim> claims);
+	Task<List<Claim>> GetClaims(ApplicationUser user);
+	Task RemoveClaim(ApplicationUser user, Claim claim);
+	Task RemoveClaims(ApplicationUser user, List<Claim> claims);
 }
