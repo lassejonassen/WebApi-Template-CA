@@ -27,7 +27,7 @@ public class MessagesController(IMediator _mediator) : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var messages = await _mediator.Send(new AllMessagesQuery());
+		var messages = await _mediator.Send(new AllMessagesQuery(Guid.NewGuid()));
 		return Ok(messages);
 	}
 

@@ -1,7 +1,9 @@
-﻿using Contracts.Messages;
+﻿using Application.Common.Security.Request;
+using Application.Common.Security.Roles;
+using Contracts.Messages;
 using ErrorOr;
-using MediatR;
 
 namespace Application.Messages.Queries;
 
-public record AllMessagesQuery : IRequest<ErrorOr<List<MessageResponse>>> { }
+[Authorize(Roles = Role.User)]
+public record AllMessagesQuery(Guid UserId) : IAuthorizeableRequest<ErrorOr<List<MessageResponse>>> { }

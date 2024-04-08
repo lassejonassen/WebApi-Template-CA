@@ -44,4 +44,31 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtOptions) : IJwtTokenGene
 
 		return new JwtSecurityTokenHandler().WriteToken(token);
 	}
+
+	public string GenerateToken(
+		Guid id,
+		string firstName, string lastName, string email, List<string> roles)
+	{
+		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+		var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+		var claims = new List<Claim>
+		{
+			new(JwtRegisteredClaimNames.Name, firstName),
+			new(JwtRegisteredClaimNames.FamilyName, lastName),
+			new(JwtRegisteredClaimNames.Email, email),
+			new("id", id.ToString()),
+		};
+
+		roles.ForEach(role => claims.Add(new(ClaimTypes.Role, role)));
+
+		var token = new JwtSecurityToken(
+			_jwtSettings.Issuer,
+			_jwtSettings.Audience,
+			claims,
+			expires: DateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes),
+			signingCredentials: credentials);
+
+		return new JwtSecurityTokenHandler().WriteToken(token);
+	}
 }

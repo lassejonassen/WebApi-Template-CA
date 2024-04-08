@@ -12,4 +12,8 @@ public interface IJwtTokenGenerator
 		SubscriptionType subscriptionType,
 		List<string> permissions,
 		List<string> roles);
+
+	string GenerateToken(
+		Guid id,
+		string firstName, string lastName, string email, List<string> roles);
 }
