@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Throw;
 
 namespace Infrastructure.Security.CurrentUserProvider;
 
@@ -8,11 +9,11 @@ public class CurrentUserProvider(IHttpContextAccessor _httpContextAccessor) : IC
 {
 	public CurrentUser GetCurrentUser()
 	{
-		//_httpContextAccessor.HttpContext.ThrowIfNull();
+		_httpContextAccessor.HttpContext.ThrowIfNull();
 
 		var id = Guid.Parse(GetSingleClaimValue("id"));
 		var permissions = GetClaimValues("permissions");
-		var roles = GetClaimValues("roles");
+		var roles = GetClaimValues(ClaimTypes.Role);
 		var firstName = GetSingleClaimValue(JwtRegisteredClaimNames.Name);
 		var lastName = GetSingleClaimValue(ClaimTypes.Surname);
 		var email = GetSingleClaimValue(ClaimTypes.Email);

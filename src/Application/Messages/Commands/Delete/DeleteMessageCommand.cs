@@ -1,7 +1,10 @@
-﻿using Contracts.Messages;
+﻿using Application.Common.Security.Request;
+using Application.Common.Security.Roles;
+using Contracts.Messages;
 using ErrorOr;
-using MediatR;
 
 namespace Application.Messages.Commands;
-public record DeleteMessageCommand(Guid Id) : IRequest<ErrorOr<MessageResponse>>
+
+[Authorize(Roles = Role.Admin)]
+public record DeleteMessageCommand(Guid UserId, Guid Id) : IAuthorizeableRequest<ErrorOr<MessageResponse>>
 { }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Api.Helpers;
 using Application.Messages.Commands;
 using Application.Messages.Queries;
 using Asp.Versioning;
@@ -27,7 +28,8 @@ public class MessagesController(IMediator _mediator) : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var messages = await _mediator.Send(new AllMessagesQuery(Guid.NewGuid()));
+		Guid userId = ContextHelpers.GetUserId(Request.HttpContext);
+		var messages = await _mediator.Send(new AllMessagesQuery(userId));
 		return Ok(messages);
 	}
 
@@ -59,7 +61,8 @@ public class MessagesController(IMediator _mediator) : ControllerBase
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var message = await _mediator.Send(new DeleteMessageCommand(id));
+		Guid userId = ContextHelpers.GetUserId(Request.HttpContext);
+		var message = await _mediator.Send(new DeleteMessageCommand(userId, id));
 		return Ok(message);
 	}
 }
