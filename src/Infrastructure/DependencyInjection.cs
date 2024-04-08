@@ -5,6 +5,7 @@ using Domain.Identity;
 using Infrastructure.AuditLogs.Persistence;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Github;
+using Infrastructure.HealthChecks;
 using Infrastructure.Identity.Persistence;
 using Infrastructure.Messages.Persistence;
 using Infrastructure.Reminders.Persistence;
@@ -20,6 +21,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Infrastructure;
 public static class DependencyInjection
@@ -33,6 +35,7 @@ public static class DependencyInjection
 			.AddServices()
 			.AddHttpClient(configuration)
 			.AddBackgroundServices()
+			.AddCustomHealthChecks()
 			.AddAuthentication(configuration)
 			.AddAuthorization()
 			.AddApiVersioning()
@@ -83,6 +86,14 @@ public static class DependencyInjection
 	private static IServiceCollection AddBackgroundServices(this IServiceCollection services)
 	{
 		//services.AddEmailNotifications(configuration);
+		return services;
+	}
+
+	private static IServiceCollection AddCustomHealthChecks(this IServiceCollection services)
+	{
+		services.AddHealthChecks()
+			.AddCheck<DatabaseHealthCheck>("custom-sql", HealthStatus.Unhealthy)
+			.AddDbContextCheck<AppDbContext>();
 		return services;
 	}
 

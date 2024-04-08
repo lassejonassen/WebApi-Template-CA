@@ -43,6 +43,7 @@ internal class Program
 			}
 
 			app.UseHttpsRedirection();
+			app.MapHealthChecks("api/health");
 			app.UseAuthorization();
 			app.MapControllers();
 
