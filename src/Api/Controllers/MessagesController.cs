@@ -37,7 +37,8 @@ public class MessagesController(IMediator _mediator) : ControllerBase
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetById(Guid id)
 	{
-		var message = await _mediator.Send(new MessageQueryById(id));
+		Guid userId = ContextHelpers.GetUserId(Request.HttpContext);
+		var message = await _mediator.Send(new MessageQueryById(userId, id));
 		return Ok(message);
 	}
 
