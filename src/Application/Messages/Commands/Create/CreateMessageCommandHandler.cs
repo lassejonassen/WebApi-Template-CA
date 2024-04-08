@@ -1,8 +1,7 @@
-﻿using Application.Common.Http;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Contracts.Messages;
 using Domain.Messages;
-using ErrorOr;	
+using ErrorOr;
 using MediatR;
 
 namespace Application.Messages.Commands;
