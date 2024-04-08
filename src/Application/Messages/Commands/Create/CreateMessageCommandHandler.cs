@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Http;
+using Application.Common.Interfaces;
 using Contracts.Messages;
 using Domain.Messages;
 using ErrorOr;	
@@ -14,7 +15,7 @@ public class CreateMessageCommandHandler(IMessagesRepository _repository)
 		var message = new Message(
 			id: Guid.NewGuid(), 
 			createTime: DateTimeOffset.Now, 
-			correlationId: Guid.NewGuid(), 
+			correlationId: Guid.NewGuid(),
 			to: command.Request.To, 
 			from: command.Request.From, 
 			text: command.Request.Text, 
